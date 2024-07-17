@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "llama-project"
+version = "0.1.0"
+description = ""
+authors = ["Thomás Freire <thomas.fsr@gmail.com>"]
+readme = "README.md"
+
+packages = [
+    { include = "*", from = "src" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.111.1"
+python-dotenv = "^1.0.1"
+langchain = "^0.2.7"
+ollama = "^0.2.1"
+langchain-community = "^0.2.7"
+langchain-core = "^0.2.20"
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
