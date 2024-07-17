@@ -4,7 +4,8 @@ from langchain_community.llms import Ollama
 from langchain.chains import SimpleSequentialChain
 from langchain.prompts import PromptTemplate
 
-
+load_dotenv()
+key = os.getenv('openai-key')
 
 # Create an instance of the Ollama model
 llm = Ollama(model="llama-3")
