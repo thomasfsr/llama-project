@@ -19,6 +19,7 @@ langchain-community = "^0.2.7"
 langchain-core = "^0.2.20"
 pypdf = "^4.3.0"
 lancedb = "^0.10.1"
+langchain-openai = "^0.1.17"
 
 
 
