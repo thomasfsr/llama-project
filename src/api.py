@@ -20,7 +20,9 @@ with open('src/prompt_template.yml', 'r') as pt_yml:
     prompt_template = yaml.safe_load(pt_yml)['prompt_template']
 
 lance_path = "data/.lancedb"
-llm = LLM_Rag(prompt_template=prompt_template, lance_path=lance_path, openai_key=get_key())
+k = 4
+
+llm = LLM_Rag(prompt_template=prompt_template, lance_path=lance_path, openai_key=get_key(), k=k)
 
 app = FastAPI()
 
