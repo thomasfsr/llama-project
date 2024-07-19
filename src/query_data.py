@@ -3,7 +3,7 @@ from langchain_community.vectorstores.lancedb import LanceDB
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from lancedb import connect
-from src.vector_db import get_embedding_function, model_openai
+from src.vector_db import Embedding_Vector
 from dotenv import load_dotenv
 import os
 
@@ -11,41 +11,41 @@ load_dotenv()
 key = os.getenv('openai-key')
 
 LANCE_PATH = "data/lancedb"
-
-
 PROMPT_TEMPLATE = """
-Answer the question based only on the following context:
+    Answer the question based ONLY on the following context:
 
-{context}
+    {context}
 
----
+    ---
 
-Answer the question based on the above context: {question}
-
+    Answer the question based on the above context: {question}
 
 """
+class LLM_Rag:
 
-async def query_rag(query_text: str):
-    con = connect(LANCE_PATH)
-    db = LanceDB(connection=con, embedding=get_embedding_function(openai_key=key))
+    def __init__(self, prompt_template:str, lance_path:str):
+        self.prompt_template = prompt_template
+        self.lance_path = lance_path
 
-    results = db.asimilarity_search_with_score(query_text, k=5)
-    context_text = "\n\n---\n\n".join([doc.page_content for doc, _score in results])
+    def query_rag(self, query_text: str):
+        con = connect(self.lance_path)
+        ev = Embedding_Vector(openai_key=key, path_db='data/.lancedb')
+        db = LanceDB(connection=con, embedding= ev.get_embedding_function())
 
-    prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
-    prompt = prompt_template.format(context=context_text, question=query_text)
+        results = db.similarity_search_with_score(query_text, k=5)
+        context_text = "\n\n---\n\n".join([doc.page_content for doc, _score in results])
 
-    model = model_openai(key=key)
-    response_text = model.invoke(prompt)
+        prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
+        prompt = prompt_template.format(context=context_text, question=query_text)
 
-    sources = [doc.metadata.get("id", None) for doc, _score in results]
-    formatted_response = f"Response: {response_text}\nSources: {sources}"
-    return await response_text, formatted_response
+        model = ev.model_openai()
+        response_text = model.invoke(prompt)
+
+        sources = [doc.metadata.get("id", None) for doc, _score in results]
+        formatted_response = f"Response: {response_text}\nSources: {sources}"
+        return response_text, formatted_response
 
 if __name__ == '__main__':
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("query_text", type=str, help="The query text.")
-    # args = parser.parse_args()
-    query_text = "How to determine the linear correlation by some variables?"
-    response, _ = query_rag(query_text)
-    print(response.content)
+    llm = LLM_Rag(prompt_template=PROMPT_TEMPLATE, lance_path='data/.lancedb')
+    response, fr= llm.query_rag('O que é verossimilhança?')
+    print(fr)
