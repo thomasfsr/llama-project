@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-key = os.getenv('openai-key')
+key = os.getenv('openai_key')
 
 LANCE_PATH = "data/lancedb"
 PROMPT_TEMPLATE = """
@@ -18,18 +18,19 @@ PROMPT_TEMPLATE = """
 
     ---
 
-    Answer the question based on the above context: {question}
+    Answer the question based ONLY on the above context: {question}
 
 """
 class LLM_Rag:
 
-    def __init__(self, prompt_template:str, lance_path:str):
+    def __init__(self, prompt_template:str, lance_path:str, openai_key:str):
         self.prompt_template = prompt_template
         self.lance_path = lance_path
+        self.openai_key = openai_key
 
     def query_rag(self, query_text: str):
         con = connect(self.lance_path)
-        ev = Embedding_Vector(openai_key=key, path_db='data/.lancedb')
+        ev = Embedding_Vector(openai_key=self.openai_key, path_db='data/.lancedb')
         db = LanceDB(connection=con, embedding= ev.get_embedding_function())
 
         results = db.similarity_search_with_score(query_text, k=5)

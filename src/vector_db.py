@@ -29,10 +29,10 @@ class Embedding_Vector:
         doc_loader = PyPDFDirectoryLoader(path)
         return doc_loader.load()
 
-    def split_documents(self, documents:list[Document]):
+    def split_documents(self, documents:list[Document], chunk_size:int, chunk_overlap:int):
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size = 800,
-            chunk_overlap = 80,
+            chunk_size = chunk_size,
+            chunk_overlap = chunk_overlap,
             length_function  = len,
             is_separator_regex=False
         )
@@ -62,13 +62,13 @@ class Embedding_Vector:
         embeddings = OpenAIEmbeddings(api_key=self.openai_key)
         return embeddings
 
-    def add_to_lancedb(self):
+    def add_to_lancedb(self, chunk_size:int, chunk_overlap:int):
         con = connect(self.path_db)
         db = LanceDB(connection=con, embedding=self.get_embedding_function())
 
         islp_pdf = 'data'
         documents = self.load_documents(path = self.dir_pdf_path)
-        chunks = self.split_documents(documents)
+        chunks = self.split_documents(documents,chunk_size, chunk_overlap)
 
         chunks_with_ids = self.calculate_chunk_ids(chunks)
         # existing_items = db.get(include=[])  # IDs are always included by default
@@ -94,7 +94,7 @@ class Embedding_Vector:
 
 if __name__ == '__main__':
     motor = Embedding_Vector(key, 'data/.lancedb','data')
-    motor.add_to_lancedb()
+    motor.add_to_lancedb(chunk_size=800, chunk_overlap=80)
     # islp_pdf = 'data'
     # documents = load_documents(islp_pdf)
     # chunks = split_documents(documents)
