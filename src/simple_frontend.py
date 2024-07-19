@@ -4,7 +4,11 @@ import asyncio
 
 FASTAPI_URL = "http://localhost:8000/query"
 
-st.title("Query Introduction to Statistical Learning with Python (ISLP)")
+col1, col2 = st.columns([.2,.8], vertical_alignment='center')
+with col1:
+    st.image('data/cover.png', width=100)
+with col2:
+    st.title("Consult: Introduction to Statistical Learning with Python (ISLP)")
 
 query_text = st.text_input("Enter your query:")
 
@@ -21,7 +25,7 @@ if st.button("Submit"):
     if query_text:
         response = asyncio.run(get_response(query_text))
         if response:
-            st.success("Success")
+            st.success("Success!")
         else:
             st.error("Error: " + response)
     else:
