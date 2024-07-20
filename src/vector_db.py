@@ -63,10 +63,10 @@ class Embedding_Vector:
         return embeddings
 
     def add_to_lancedb(self, chunk_size:int, chunk_overlap:int):
+        os.makedirs(self.dir_pdf_path, exist_ok=True)
         con = connect(self.path_db)
         db = LanceDB(connection=con, embedding=self.get_embedding_function())
 
-        islp_pdf = 'data'
         documents = self.load_documents(path = self.dir_pdf_path)
         chunks = self.split_documents(documents,chunk_size, chunk_overlap)
 

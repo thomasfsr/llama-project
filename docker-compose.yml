@@ -3,16 +3,23 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.streamlit
+    env_file:
+      - .env
     ports:
       - "8501:8501"
     volumes:
-      - ./data:/app/data  # Mount volume for persistent data
+      - ./data:/app/data 
 
   fastapi:
     build:
       context: .
       dockerfile: Dockerfile.fastapi
+    env_file:
+      - .env
     ports:
       - "8000:8000"
     volumes:
-      - ./data:/app/data  # Mount volume for persistent data
+      - ./data:/app/data
+
+volumes:
+  data:

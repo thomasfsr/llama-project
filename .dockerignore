@@ -1,6 +1,11 @@
 .venv
 .venv/
-.env
+data
+data/
 .exemple_env
 notebook.ipynb
-
+.env
+.exemple_env
+Dockerfile.fastapi
+Dockerfile.streamlit
+docker-compose.yml
