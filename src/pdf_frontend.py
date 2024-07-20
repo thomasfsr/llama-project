@@ -14,7 +14,7 @@ def run():
                                     )
     button_show = st.button("Show saved files")
 
-    button_load = st.button('::red[Load PDFs to LanceDB]')
+    button_load = st.button(':red[Load PDFs to LanceDB]')
 
     if uploaded_files is not None:
         for uploaded_file in uploaded_files:
