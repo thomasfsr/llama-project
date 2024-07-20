@@ -2,6 +2,10 @@ import streamlit as st
 import os
 import glob
 from time import sleep
+from dotenv import load_dotenv
+load_dotenv()
+
+key = os.getenv('openai_key')
 
 def run():
     uploaded_files = st.file_uploader("Insert PDFs you want to query.", 
@@ -9,6 +13,8 @@ def run():
                                     accept_multiple_files=True,
                                     )
     button_show = st.button("Show saved files")
+
+    button_load = st.button('::red[Load PDFs to LanceDB]')
 
     if uploaded_files is not None:
         for uploaded_file in uploaded_files:
@@ -26,3 +32,8 @@ def run():
                 st.success(saved_file)
         else:
             st.write("No files saved yet.")
+    
+    if button_load:
+        from src.vector_db import Embedding_Vector
+        motor = Embedding_Vector(key, 'data/.lancedb','data')
+        motor.add_to_lancedb(chunk_size=800, chunk_overlap=80)
