@@ -1,7 +1,5 @@
-import argparse
 from langchain_community.vectorstores.lancedb import LanceDB
 from langchain.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import StrOutputParser
 from lancedb import connect
 from src.vector_db import Embedding_Vector
 from dotenv import load_dotenv

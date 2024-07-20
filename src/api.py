@@ -3,7 +3,6 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from typing import AsyncIterator
 import asyncio
-import io
 import os
 from dotenv import load_dotenv
 from functools import lru_cache

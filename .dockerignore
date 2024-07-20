@@ -1,0 +1,6 @@
+.venv
+.venv/
+.env
+.exemple_env
+notebook.ipynb
+

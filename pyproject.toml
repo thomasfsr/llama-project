@@ -13,19 +13,13 @@ python = "^3.12"
 fastapi = "^0.111.1"
 python-dotenv = "^1.0.1"
 langchain = "^0.2.7"
-ollama = "^0.2.1"
 langchain-community = "^0.2.7"
-langchain-core = "^0.2.20"
-pypdf = "^4.3.0"
 lancedb = "^0.10.1"
 langchain-openai = "^0.1.17"
-jupyter = "^1.0.0"
 pandas = "^2.2.2"
 asyncio = "^3.4.3"
 pyyaml = "^6.0.1"
 streamlit = "^1.36.0"
-
-
 
 [build-system]
 requires = ["poetry-core"]
