@@ -26,7 +26,7 @@ class Embedding_Vector:
         return model
 
     def load_documents(self, path:str):
-        doc_loader = PyPDFDirectoryLoader(path)
+        doc_loader = PyPDFDirectoryLoader(path, glob= "*.pdf")
         return doc_loader.load()
 
     def split_documents(self, documents:list[Document], chunk_size:int, chunk_overlap:int):
