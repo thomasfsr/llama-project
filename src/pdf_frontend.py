@@ -48,7 +48,7 @@ def run():
     with col2:
         button_load = st.button(':green[Load PDF files to LanceDB] :inbox_tray:')
         if button_load:
-            from src.vector_db import Embedding_Vector
+            from vector_db import Embedding_Vector
             motor = Embedding_Vector(key, 'data/.lancedb','data')
             motor.add_to_lancedb(chunk_size=800, chunk_overlap=80)
 

@@ -1,8 +1,4 @@
-import os
-from dotenv import load_dotenv
 from langchain_community.llms import Ollama
-from langchain.chains import SimpleSequentialChain
-from langchain.prompts import PromptTemplate
 
 
 
